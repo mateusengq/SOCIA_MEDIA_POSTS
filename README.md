@@ -58,14 +58,17 @@ The main objective is to estimate if the comment is `positive`, `negative`, `neu
 1. For the classification, I used the features: Text and Hashtags, and my target is Relabeled_Sentiment. During Data Preparation, I removed punctuation, converted the words to lowercase, and removed stopwords and special characters.
 2. The data was split into training and testing sets with a proportion of 80:20.
 3. Then, I used TF-IDF (Term Frequency Inverse Document Frequency) to transform the text into a meaningful representation of numbers used to fit machine learning algorithms for prediction.
-$$ TF - IDF = TF(t,d) x IDF(t) $$
+   
+                $$ TF - IDF = TF(t,d) x IDF(t) $$
 where 
 - TF: term frequency, representing the number of times term t appears in a document d
 - IDF: inverse document frequency
-            $$log\frac{1 + n}{1 + df(d,t)} + 1$$
+  
+                $$log\frac{1 + n}{1 + df(d,t)} + 1$$
+                
 where: *n* = # of documents and *df(d,t)* is the document frequency of the term t.
-4. I combined the features (text and hashtags) into one matrix.
-5. I trained the following models
+1. I combined the features (text and hashtags) into one matrix.
+2. I trained the following models
    1. Logistic Regression
    2. Logistic Regression with class weight
    3. Naive Bayes
