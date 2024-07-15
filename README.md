@@ -59,7 +59,8 @@ The main objective is to estimate if the comment is `positive`, `negative`, `neu
 2. The data was split into training and testing sets with a proportion of 80:20.
 3. Then, I used TF-IDF (Term Frequency Inverse Document Frequency) to transform the text into a meaningful representation of numbers used to fit machine learning algorithms for prediction.
    
-$$ TF - IDF = TF(t,d) x IDF(t) $$
+$$TF - IDF = TF(t,d) x IDF(t)$$
+
 where 
 - TF: term frequency, representing the number of times term t appears in a document d
 - IDF: inverse document frequency
