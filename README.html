@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>SOCIA MEDIA POSTS - PREDICT IF IT IS POSITIVE&comma; NEGATIVE OR NEUTRAL</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="socia-media-posts---predict-if-it-is-positive-negative-or-neutral">SOCIA MEDIA POSTS - PREDICT IF IT IS POSITIVE, NEGATIVE OR NEUTRAL</h1>
+<h2 id="1-the-project">1. The Project</h2>
+<p>In this project, my goal is to replicate an analysis I used to perform to evaluate NPS responses. When I received responses from clients, I labeled them as Positive, Negative, or Neutral, and then sent the Negative responses to the responsible parties to take the necessary actions.</p>
+<p>Since I can't share the real data from my daily work, I found a dataset with some tweets and will apply the same concept to this dataset.</p>
+<p>It's important to note that I label and send the issues to the responsible parties to enable quick actions, but I also need to read all the comments. This is just a part of the process.</p>
+<h2 id="2-business-problem-and-objectives">2. Business Problem and Objectives</h2>
+<p>In my daily work, I collect the NPS responses, label them, analyze, calculate the NPS, and send the results to the responsible parties. Weekly, I receive a significant number of responses, and in some cases, it is necessary to take quick actions, especially with the Negative responses.</p>
+<p>To avoid delays between receiving a response and taking action, I use a model to segment the comments. The Negative comments are sent immediately, while I read and analyze each one.</p>
+<p>2.1. The objective here is to create a model to classify each comment.</p>
+<p>People who work or are familiar with NPS might ask,  &quot;Why don't you use the rating provided by clients instead of eatimate this?&quot;. In some companies in Brazil, it is common to see high ratings accompanied by improvement comments. The ideia is to identify these cases to act quickly. This classification doesn't impact the rating or the final NPS score.</p>
+<p>2.2. Since I am using a dataset from Kaggle with a different goal, I will conduct an Exploratory Data Analysis (EDA) to better understand this dataset. My goal here is to understand the patterns in these tweets.</p>
+<h3 id="21-about-dataset">2.1. About Dataset</h3>
+<p>I used <a href="https://www.kaggle.com/datasets/kashishparmar02/social-media-sentiments-analysis-dataset">this dataset</a> from Kaggle to ilustrate the ideia.
+The Social Media Sentiments Analysis Dataset captures a vibrant tapestry of emotions, trends, and interactions across various social media platforms. This dataset provides a snapshot of user-generated content, encompassing text, timestamps, hashtags, countries, likes, and retweets. Each entry unveils unique stories—moments of surprise, excitement, admiration, thrill, contentment, and more—shared by individuals worldwide. <a href="https://www.kaggle.com/datasets/kashishparmar02/social-media-sentiments-analysis-dataset">DATASET</a></p>
+<h2 id="3-pipeline">3. Pipeline:</h2>
+<p>Business problem (understanding).
+Data understanding.
+Data preparation.
+Modelling.
+Validation.</p>
+<h2 id="4-main-insights---eda">4. Main Insights - EDA</h2>
+<ul>
+<li>The original data consists of tweets from <code>Instagram</code>, <code>Facebook </code> and <code>Twitter</code>, with approximately 33% from each plataform.</li>
+<li>The original classification had 280 labels, and I decided to relabel it into just 4 labels (Positive, Negative, Other and Neutral).
+<ul>
+<li>Relabeling this information into fewer classes can help simplify the analysis and make it more manageable.</li>
+<li>For the relabeling, I decided to create the groups myself, but it is important to mention that there are some libraries that analyze the data and classify it into groups, like <code>nltk</code>.</li>
+</ul>
+</li>
+<li>There are 712 tweets; 401 are classified as <code>Positive</code>, 163 as <code>Negative</code>, 125 as <code>Other</code> and 43 as <code>Neutral</code>.</li>
+<li>After processing the data, there are 33 countries (USA, UK and Canada represent more the 50% of the texts)</li>
+<li>The most common words, considering all tweets, are new, life, and challenge. For positive tweets, the words are new, challenge, and joy; for negative tweets, echo, despair, and emotion; for neutral tweets, life, new, and day; and for other tweets, curious, explore, and nostalgia.</li>
+<li>Spain is the only country with more <code>Negative</code> tweets than <code>Positive</code></li>
+<li>The correlation between <code>Likes</code> and <code>Retweets</code> is 0.99.</li>
+<li>There are no statistical diferences between the <code>Sentimental</code> and the number of <code>Likes</code> and <code>Retweets</code>.
+<img src="https://github.com/mateusengq/SOCIA_MEDIA_POSTS/blob/main/GRAPHS/BOXPLOT_LIKES_SENTIMENT.png" alt="Boxplot_likes"></li>
+<li>Considering the Month and Day, there are no differences between the values.</li>
+<li>Analyzing the hour, 13:00 and 23:00 have a higher median than the other hours.
+<img src="https://github.com/mateusengq/SOCIA_MEDIA_POSTS/blob/main/GRAPHS/boxplot_likes_month.png" alt="Boxplot_month"></li>
+</ul>
+<h2 id="5-modeling">5. Modeling</h2>
+<p>The main objective is to estimate if the comment is <code>positive</code>, <code>negative</code>, <code>neutral</code> or <code>others</code>. Usually, I use the <code>others</code> category to classify comments that are random, without suggestions, and about unrelated topics.</p>
+<ol>
+<li>For the classification, I used the features: Text and Hashtags, and my target is Relabeled_Sentiment. During Data Preparation, I removed punctuation, converted the words to lowercase, and removed stopwords and special characters.</li>
+<li>The data was split into training and testing sets with a proportion of 80:20.</li>
+<li>Then, I used TF-IDF (Term Frequency Inverse Document Frequency) to transform the text into a meaningful representation of numbers used to fit machine learning algorithms for prediction.</li>
+</ol>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>T</mi><mi>F</mi><mo>−</mo><mi>I</mi><mi>D</mi><mi>F</mi><mo>=</mo><mi>T</mi><mi>F</mi><mo stretchy="false">(</mo><mi>t</mi><mo separator="true">,</mo><mi>d</mi><mo stretchy="false">)</mo><mi>x</mi><mi>I</mi><mi>D</mi><mi>F</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">TF - IDF = TF(t,d) x IDF(t)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">TF</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">TF</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">d</span><span class="mclose">)</span><span class="mord mathnormal">x</span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span></span></span></span></span></p>
+<p>where</p>
+<ul>
+<li>TF: term frequency, representing the number of times term t appears in a document d</li>
+<li>IDF: inverse document frequency</li>
+</ul>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>l</mi><mi>o</mi><mi>g</mi><mfrac><mrow><mn>1</mn><mo>+</mo><mi>n</mi></mrow><mrow><mn>1</mn><mo>+</mo><mi>d</mi><mi>f</mi><mo stretchy="false">(</mo><mi>d</mi><mo separator="true">,</mo><mi>t</mi><mo stretchy="false">)</mo></mrow></mfrac><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">log\frac{1 + n}{1 + df(d,t)} + 1
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.2574em;vertical-align:-0.936em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">df</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">t</span><span class="mclose">)</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></span></p>
+<p>where: <em>n</em> = # of documents and <em>df(d,t)</em> is the document frequency of the term t.</p>
+<ol>
+<li>I combined the features (text and hashtags) into one matrix.</li>
+<li>I trained the following models
+<ol>
+<li>Logistic Regression</li>
+<li>Logistic Regression with class weight</li>
+<li>Naive Bayes</li>
+<li>SVM</li>
+<li>SVM with class weight</li>
+<li>Random Forest</li>
+<li>Gradient Boosting</li>
+<li>Gradient Boosting with Weight</li>
+</ol>
+</li>
+</ol>
+<h3 id="51-results">5.1. Results</h3>
+<ul>
+<li>Best Model: Logistic Regression with Class Weight is the best performing model across all metrics, making it the preferred choice for this task.</li>
+<li>SVM Models: Both SVM and SVM with Class Weight are strong contenders, showing robust performance.</li>
+<li>Naive Bayes: A good baseline model with decent performance.</li>
+<li>Random Forest: Shows high precision but lower overall performance.</li>
+<li>Gradient Boosting: Needs careful tuning and might not handle class imbalance well without further adjustments.</li>
+<li>For my purpose, using comments in NPS research is helpful because the company can make quick decisions and take action.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Accuracy</th>
+<th>Precision</th>
+<th>Recall</th>
+<th>F1 Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logistic Regression</td>
+<td>0.741</td>
+<td>0.826</td>
+<td>0.741</td>
+<td>0.712</td>
+</tr>
+<tr>
+<td>Logistic Regression with Class Weight</td>
+<td>0.823</td>
+<td>0.853</td>
+<td>0.823</td>
+<td>0.809</td>
+</tr>
+<tr>
+<td>Naive Bayes</td>
+<td>0.762</td>
+<td>0.826</td>
+<td>0.762</td>
+<td>0.731</td>
+</tr>
+<tr>
+<td>SVM</td>
+<td>0.796</td>
+<td>0.847</td>
+<td>0.796</td>
+<td>0.774</td>
+</tr>
+<tr>
+<td>SVM with Class Weight</td>
+<td>0.796</td>
+<td>0.847</td>
+<td>0.796</td>
+<td>0.774</td>
+</tr>
+<tr>
+<td>Random Forest</td>
+<td>0.701</td>
+<td>0.847</td>
+<td>0.796</td>
+<td>0.774</td>
+</tr>
+<tr>
+<td>Gradient Boosting</td>
+<td>0.701</td>
+<td>0.761</td>
+<td>0.701</td>
+<td>0.671</td>
+</tr>
+<tr>
+<td>Gradient Boosting with weight</td>
+<td>0.347</td>
+<td>0.514</td>
+<td>0.347</td>
+<td>0.295</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://github.com/mateusengq/SOCIA_MEDIA_POSTS/blob/main/GRAPHS/results.png" alt="Metrics for each model"></p>
+<h3 id="52-recommendations">5.2. Recommendations:</h3>
+<ul>
+<li>Focus on Logistic Regression with Class Weight for your final model.</li>
+<li>Consider further tuning SVM models for potential improvements.</li>
+<li>Investigate why Gradient Boosting performs poorly with class weights and explore hyperparameter tuning or alternative methods for handling imbalance.</li>
+</ul>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
